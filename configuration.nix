@@ -4,6 +4,12 @@
 
 { config, pkgs, ... }:
 
+let
+	# Declare unstable channel
+	unstable = import <nixpkgs-unstable> {
+		config.allowUnfree = true;
+	};
+in
 {
 	imports =
 	[ # Include the results of the hardware scan.
@@ -16,6 +22,7 @@
 
 	# Use latest kernel.
 	boot.kernelPackages = pkgs.linuxPackages_latest;
+	boot.kernelParams = [ "mem_sleep_default=deep" ];
 
 	networking.hostName = "nixos"; # Define your hostname.
 	# networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -134,6 +141,7 @@
 		# gui
 		ghostty
 		ungoogled-chromium
+		# google-chrome
 		mpv
 		obsidian
 		discord
@@ -141,7 +149,7 @@
 		steam
 		spotify
 		qbittorrent
-		godot
+		unstable.godot
 		krita
 		syncthing
 		syncthingtray
@@ -177,6 +185,9 @@
 
 	# Environment variables
 	environment.variables.EDITOR = "nvim";
+
+	# Enable experimental features
+	nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 	# This value determines the NixOS release from which the default
 	# settings for stateful data, like file locations and database versions
