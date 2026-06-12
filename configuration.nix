@@ -9,6 +9,11 @@ let
 	unstable = import <nixpkgs-unstable> {
 		config.allowUnfree = true;
 	};
+
+	# Claude Code from sadjow/claude-code-nix
+	claude-code =
+		(builtins.getFlake "github:sadjow/claude-code-nix/latest")
+		.packages.${pkgs.system}.default;
 in
 {
 	imports =
@@ -123,6 +128,7 @@ in
 		gh
 		neovim
 		tmux
+		claude-code
 		# zellij
 		yazi
 		lazygit
@@ -188,6 +194,10 @@ in
 
 	# Enable experimental features
 	nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+	# Binary cache for claude-code-nix
+	nix.settings.substituters = [ "https://claude-code.cachix.org" ];
+	nix.settings.trusted-public-keys = [ "claude-code.cachix.org-1:YeXf2aNu7UTX8Vwrze0za1WEDS+4DuI2kVeWEE4fsRk=" ];
 
 	# This value determines the NixOS release from which the default
 	# settings for stateful data, like file locations and database versions
