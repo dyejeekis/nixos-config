@@ -69,6 +69,15 @@ in
 	hardware.bluetooth.enable = true; 
 	services.blueman.enable = true;
 
+	# Enable OpenGL/Vulkan
+	hardware.graphics = {
+	  enable = true;
+	  enable32Bit = true; # for 32-bit apps/games like Steam
+	};
+
+	# Video drivers (Xorg/Wayland)
+	services.xserver.videoDrivers = [ "amdgpu" ];
+
 	# Enable the KDE Plasma Desktop Environment.
 	services.displayManager.sddm.enable = true;
 	services.desktopManager.plasma6.enable = true;
@@ -156,9 +165,11 @@ in
 		spotify
 		qbittorrent
 		unstable.godot
+		blender
 		krita
 		syncthing
 		syncthingtray
+		rustdesk
 		kdePackages.kcalc
 		kdePackages.kolourpaint
 	];
